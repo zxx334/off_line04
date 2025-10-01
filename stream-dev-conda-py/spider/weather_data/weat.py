@@ -5,20 +5,35 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from fake_useragent import UserAgent
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import concurrent.futures
 import json
 import os
+import hashlib
 
 
 class ImprovedFastWeatherCrawler:
-    def __init__(self):
+    def __init__(self, incremental_update=True, update_interval=10):
+        # 增量更新配置
+        self.incremental_update = incremental_update
+        self.update_interval = update_interval  # 更新间隔（秒）
+
         # 设置日志（每次运行覆盖上次的日志）
         self.setup_logging()
 
         self.ua = UserAgent()
-        self.setup_advanced_antibot()
+        self.setup_enhanced_antibot()  # 增强反爬手段
         self.setup_json_storage()
+
+        # 存储最后更新时间
+        self.last_update_time = {}
+
+        # 请求统计
+        self.request_stats = {
+            'total_requests': 0,
+            'failed_requests': 0,
+            'last_reset': datetime.now()
+        }
 
         # 省份数据
         self.provinces = {
@@ -60,7 +75,6 @@ class ImprovedFastWeatherCrawler:
 
     def setup_logging(self):
         """设置日志配置（每次运行覆盖上次日志）"""
-        # 删除旧的日志文件（如果存在）
         log_file = 'weather_crawler.log'
         if os.path.exists(log_file):
             try:
@@ -69,61 +83,157 @@ class ImprovedFastWeatherCrawler:
             except Exception as e:
                 print(f"⚠️ 清除旧日志失败: {e}")
 
-        # 配置新的日志
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             handlers=[
-                logging.FileHandler(log_file, encoding='utf-8', mode='w'),  # mode='w'覆盖模式
+                logging.FileHandler(log_file, encoding='utf-8', mode='w'),
                 logging.StreamHandler()
             ]
         )
         logging.info("🔄 开始新的天气数据爬取任务")
 
-    def setup_advanced_antibot(self):
-        """设置高级反爬措施"""
+#给你“会重试、长连接、带伪装头”的会话；
+    def setup_enhanced_antibot(self):
+        """设置增强反爬措施"""
         try:
-            # 创建带重试机制的会话
+            # 创建带智能重试机制的会话
             self.session = requests.Session()
 
-            # 设置重试策略
+            # 增强重试策略
             retry_strategy = Retry(
-                total=3,
-                backoff_factor=0.5,
-                status_forcelist=[429, 500, 502, 503, 504],
+                total=5,  # 增加重试次数
+                backoff_factor=1.5,  # 增加退避因子
+                status_forcelist=[429, 500, 502, 503, 504, 403],
+                allowed_methods=["GET", "POST"],
+                respect_retry_after_header=True
             )
 
-            adapter = HTTPAdapter(max_retries=retry_strategy)
+            adapter = HTTPAdapter(
+                max_retries=retry_strategy,
+                pool_connections=10,
+                pool_maxsize=10
+            )
             self.session.mount("http://", adapter)
             self.session.mount("https://", adapter)
 
-            # 设置基础头部
-            self.session.headers.update({
+            # 动态头部信息
+            self.dynamic_headers = {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Accept-Language': 'zh-CN,zh;q=0.9',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
                 'Accept-Encoding': 'gzip, deflate, br',
                 'Connection': 'keep-alive',
                 'Upgrade-Insecure-Requests': '1',
-            })
-            logging.info("✅ 反爬措施设置完成")
+                'Sec-Fetch-Dest': 'document',
+                'Sec-Fetch-Mode': 'navigate',
+                'Sec-Fetch-Site': 'none',
+            }
+
+            logging.info("✅ 增强反爬措施设置完成")
         except Exception as e:
             logging.error(f"❌ 反爬措施设置失败: {e}")
             raise
 
+# 负责每次随机“小版本号 + 系统平台”；
+    def generate_fingerprint(self):
+        """生成浏览器指纹，用于避免检测"""
+        browser_versions = [
+            '96.0.4664.110', '97.0.4692.71', '98.0.4758.102',
+            '99.0.4844.51', '100.0.4896.127', '101.0.4951.67'
+        ]
+        platform_versions = [
+            'Windows NT 10.0; Win64; x64',
+            'Windows NT 6.1; Win64; x64',
+            'Macintosh; Intel Mac OS X 10_15_7',
+            'X11; Linux x86_64'
+        ]
+
+        return {
+            'browser_version': random.choice(browser_versions),
+            'platform': random.choice(platform_versions)
+        }
+
+    def needs_update(self, province_name):
+        """检查是否需要更新（增量更新逻辑）"""
+        if not self.incremental_update:
+            return True
+
+        current_time = datetime.now()
+        last_time = self.last_update_time.get(province_name)
+
+        if not last_time:
+            return True
+
+        time_diff = (current_time - last_time).total_seconds()
+        return time_diff >= self.update_interval
+
+    def smart_delay(self):
+        """智能延迟，避免规律性请求"""
+        # 基础延迟 + 随机抖动
+        base_delay = random.uniform(1, 3)
+        jitter = random.uniform(0.5, 1.5)
+        delay = base_delay + jitter
+
+        # 根据请求频率动态调整延迟
+        if self.request_stats['total_requests'] > 10:
+            delay *= 1.2  # 增加延迟
+
+        logging.debug(f"智能延迟: {delay:.2f}秒")
+        time.sleep(delay)
+
+#把指纹变成一条完整、自洽、可随时替换的浏览器请求头。
+    def rotate_user_agent(self):
+        """轮换User-Agent并添加指纹"""
+        fingerprint = self.generate_fingerprint()
+
+        # 使用fake-useragent生成基础UA，然后添加指纹
+        base_ua = self.ua.random
+        enhanced_ua = f"{base_ua} AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{fingerprint['browser_version']} Safari/537.36"
+
+        return {
+            'User-Agent': enhanced_ua,
+            'Referer': random.choice([
+                'https://weather.cma.cn/',
+                'https://www.weather.com.cn/',
+                'https://baidu.com/',
+                'https://google.com/'
+            ]),
+            'Sec-Ch-Ua': f'"Chromium";v="{fingerprint["browser_version"].split(".")[0]}", "Google Chrome";v="{fingerprint["browser_version"].split(".")[0]}", ";Not A Brand";v="99"',
+            'Sec-Ch-Ua-Mobile': '?0',
+            'Sec-Ch-Ua-Platform': f'"{fingerprint["platform"].split(";")[0]}"'
+        }
+
     def setup_json_storage(self):
-        """设置JSON数据存储"""
+        """设置JSON数据存储（支持增量更新）"""
         try:
             self.json_file = 'weather_data.json'
-            # 初始化空的JSON文件（覆盖模式）
-            with open(self.json_file, 'w', encoding='utf-8') as f:
-                json.dump([], f, ensure_ascii=False, indent=2)
-            logging.info(f"✅ JSON存储文件初始化完成: {self.json_file}")
+            # 如果文件不存在，初始化空列表
+            if not os.path.exists(self.json_file):
+                with open(self.json_file, 'w', encoding='utf-8') as f:
+                    json.dump([], f, ensure_ascii=False, indent=2)
+                logging.info(f"✅ JSON存储文件初始化完成: {self.json_file}")
+            else:
+                logging.info(f"✅ 使用现有JSON存储文件: {self.json_file}")
+
+                # 加载现有数据，初始化最后更新时间
+                with open(self.json_file, 'r', encoding='utf-8') as f:
+                    existing_data = json.load(f)
+
+                for item in existing_data:
+                    province = item.get('province')
+                    if province and 'update_time' in item:
+                        try:
+                            update_time = datetime.strptime(item['update_time'], '%Y-%m-%d %H:%M:%S')
+                            self.last_update_time[province] = update_time
+                        except:
+                            pass
+
         except Exception as e:
             logging.error(f"❌ JSON存储设置失败: {e}")
             raise
 
     def save_to_json(self, weather_data):
-        """保存数据到JSON文件"""
+        """增量保存数据到JSON文件"""
         try:
             # 读取现有数据
             if os.path.exists(self.json_file):
@@ -132,41 +242,65 @@ class ImprovedFastWeatherCrawler:
             else:
                 existing_data = []
 
-            # 添加新数据
-            for data in weather_data:
-                # 添加时间戳
-                data['update_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                data['crawl_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                existing_data.append(data)
+            current_time = datetime.now()
+            updated_count = 0
+            new_count = 0
+
+            for new_data in weather_data:
+                province_name = new_data['province']
+                new_data['update_time'] = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                new_data['crawl_time'] = current_time.strftime('%Y-%m-%d %H:%M:%S')
+
+                # 查找是否已存在该省份的数据
+                found = False
+                for i, existing_item in enumerate(existing_data):
+                    if existing_item.get('province') == province_name:
+                        # 更新现有数据
+                        existing_data[i] = new_data
+                        updated_count += 1
+                        found = True
+                        break
+
+                if not found:
+                    # 添加新数据
+                    existing_data.append(new_data)
+                    new_count += 1
+
+                # 更新最后更新时间
+                self.last_update_time[province_name] = current_time
 
             # 保存回文件
             with open(self.json_file, 'w', encoding='utf-8') as f:
                 json.dump(existing_data, f, ensure_ascii=False, indent=2)
 
-            logging.info(f"💾 数据已保存到 {self.json_file}，总计 {len(existing_data)} 条记录")
+            logging.info(f"💾 数据已保存: 更新{updated_count}条, 新增{new_count}条, 总计{len(existing_data)}条记录")
             return True
+
         except Exception as e:
             logging.error(f"❌ 保存到JSON失败: {e}")
             return False
 
     def get_weather_with_retry(self, province_name, province_info):
-        """带重试机制的天气获取"""
+        """增强的带重试机制的天气获取"""
+        if not self.needs_update(province_name):
+            logging.info(f"⏭️ {province_name} 数据尚未达到更新间隔，跳过")
+            return None
+
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                # 随机延迟
-                delay = random.uniform(1, 3)
-                logging.info(f"等待 {delay:.1f} 秒后请求 {province_name}...")
-                time.sleep(delay)
+                # 智能延迟
+                self.smart_delay()
 
                 code = province_info['code']
                 url = f"https://weather.cma.cn/weather/{code}.html"
 
-                # 动态更新User-Agent
-                headers = {
-                    'User-Agent': self.ua.random,
-                    'Referer': 'https://weather.cma.cn/',
-                }
+                # 动态更新头部信息
+                headers = self.rotate_user_agent()
+                headers.update(self.dynamic_headers)
+
+                # 更新请求统计
+                self.request_stats['total_requests'] += 1
 
                 logging.info(f"第{attempt + 1}次尝试获取 {province_name} 天气数据")
                 response = self.session.get(url, headers=headers, timeout=15)
@@ -181,6 +315,7 @@ class ImprovedFastWeatherCrawler:
                     continue
                 else:
                     logging.warning(f"⚠️ {province_name} 请求失败: HTTP {response.status_code}")
+                    self.request_stats['failed_requests'] += 1
                     if attempt < max_retries - 1:
                         continue
                     else:
@@ -188,6 +323,7 @@ class ImprovedFastWeatherCrawler:
 
             except requests.exceptions.Timeout:
                 logging.warning(f"⚠️ {province_name} 请求超时，尝试 {attempt + 1}/{max_retries}")
+                self.request_stats['failed_requests'] += 1
                 if attempt < max_retries - 1:
                     continue
                 else:
@@ -195,6 +331,7 @@ class ImprovedFastWeatherCrawler:
 
             except Exception as e:
                 logging.error(f"❌ {province_name} 请求异常: {e}")
+                self.request_stats['failed_requests'] += 1
                 if attempt < max_retries - 1:
                     time.sleep(5)
                     continue
@@ -204,10 +341,8 @@ class ImprovedFastWeatherCrawler:
         return self.get_fallback_weather(province_name)
 
     def parse_weather_data(self, html, province_name):
-        """解析天气数据"""
+        """解析天气数据（保持不变）"""
         try:
-            # 这里可以添加真实的数据解析逻辑
-            # 目前使用示例数据
             today = datetime.now().strftime('%Y-%m-%d')
             weather_options = ['晴', '多云', '阴', '小雨', '阵雨']
             temp_ranges = {
@@ -215,8 +350,7 @@ class ImprovedFastWeatherCrawler:
                 '华南': ('15℃', '28℃'), '西南': ('12℃', '24℃'), '西北': ('3℃', '18℃')
             }
 
-            # 简单的地理分区
-            region = '华北'  # 默认
+            region = '华北'
             if province_name in ['黑龙江', '吉林', '辽宁']:
                 region = '东北'
             elif province_name in ['广东', '广西', '海南', '福建']:
@@ -243,7 +377,7 @@ class ImprovedFastWeatherCrawler:
             return self.get_fallback_weather(province_name)
 
     def get_fallback_weather(self, province_name):
-        """备用天气数据"""
+        """备用天气数据（保持不变）"""
         try:
             today = datetime.now().strftime('%Y-%m-%d')
             return [{
@@ -253,23 +387,27 @@ class ImprovedFastWeatherCrawler:
                 "temperature": "10°C-20°C",
                 "wind": "微风",
                 "source": "fallback",
-                "is_fallback": True  # 标记为备用数据
+                "is_fallback": True
             }]
         except Exception as e:
             logging.error(f"❌ 生成备用数据失败 {province_name}: {e}")
             return []
 
     def safe_update_province(self, province_info):
-        """安全更新单个省份数据 - 添加JSON存储"""
+        """安全更新单个省份数据 - 支持增量更新"""
         province_name, info = province_info
         start_time = time.time()
 
         try:
             weather_data = self.get_weather_with_retry(province_name, info)
+
+            # 如果没有数据（由于增量更新跳过）
+            if weather_data is None:
+                return True, 0
+
             elapsed_time = time.time() - start_time
 
             if weather_data:
-                # 保存数据到JSON文件
                 save_success = self.save_to_json(weather_data)
 
                 for data in weather_data:
@@ -287,22 +425,30 @@ class ImprovedFastWeatherCrawler:
             return False, 0
 
     def update_all_provinces_safely(self):
-        """安全更新所有省份数据"""
+        """安全更新所有省份数据（支持增量更新）"""
         logging.info(f"🚀 开始安全更新全国天气数据 - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        logging.info(f"📊 更新模式: {'增量更新' if self.incremental_update else '全量更新'}, 间隔: {self.update_interval}秒")
+
         start_time = time.time()
 
         success_count = 0
         total_records = 0
+        skipped_count = 0
         provinces_list = list(self.provinces.items())
-        random.shuffle(provinces_list)  # 随机顺序避免模式检测
+        random.shuffle(provinces_list)
 
         # 控制并发数
         with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
             future_to_province = {}
 
             for province_info in provinces_list:
+                province_name = province_info[0]
+                if not self.needs_update(province_name):
+                    skipped_count += 1
+                    continue
+
                 future = executor.submit(self.safe_update_province, province_info)
-                future_to_province[future] = province_info[0]
+                future_to_province[future] = province_name
 
             for future in concurrent.futures.as_completed(future_to_province):
                 province = future_to_province[future]
@@ -315,7 +461,12 @@ class ImprovedFastWeatherCrawler:
                     logging.error(f"❌ {province} 处理异常: {e}")
 
         total_time = time.time() - start_time
-        logging.info(f"📊 更新完成: 成功{success_count}省, 记录{total_records}条, 耗时{total_time:.1f}秒")
+
+        # 显示请求统计
+        success_rate = (self.request_stats['total_requests'] - self.request_stats['failed_requests']) / self.request_stats['total_requests'] * 100 if self.request_stats['total_requests'] > 0 else 0
+        logging.info(f"📊 请求统计: 总计{self.request_stats['total_requests']}次, 失败{self.request_stats['failed_requests']}次, 成功率{success_rate:.1f}%")
+
+        logging.info(f"📊 更新完成: 成功{success_count}省, 跳过{skipped_count}省, 记录{total_records}条, 耗时{total_time:.1f}秒")
 
         # 显示最终统计
         self.display_final_stats()
@@ -331,13 +482,51 @@ class ImprovedFastWeatherCrawler:
                 provinces = set(item['province'] for item in data)
                 fallback_count = sum(1 for item in data if item.get('is_fallback'))
 
+                # 计算数据新鲜度
+                now = datetime.now()
+                fresh_data = 0
+                for item in data:
+                    if 'update_time' in item:
+                        try:
+                            update_time = datetime.strptime(item['update_time'], '%Y-%m-%d %H:%M:%S')
+                            if (now - update_time).total_seconds() <= self.update_interval:
+                                fresh_data += 1
+                        except:
+                            pass
+
                 logging.info(f"\n📈 最终数据统计:")
                 logging.info(f"   覆盖省份: {len(provinces)}/{len(self.provinces)}")
                 logging.info(f"   总记录数: {total_records}")
+                logging.info(f"   新鲜数据: {fresh_data} 条 (≤{self.update_interval}秒)")
                 logging.info(f"   备用数据: {fallback_count} 条")
                 logging.info(f"   数据文件: {self.json_file}")
         except Exception as e:
             logging.error(f"❌ 显示统计信息失败: {e}")
+
+    def continuous_update(self, duration_minutes=60):
+        """持续更新模式"""
+        logging.info(f"🔄 启动持续更新模式，运行{duration_minutes}分钟")
+        start_time = time.time()
+        end_time = start_time + duration_minutes * 60
+        cycle_count = 0
+
+        while time.time() < end_time:
+            cycle_count += 1
+            logging.info(f"🔄 第{cycle_count}轮更新开始")
+
+            self.update_all_provinces_safely()
+
+            # 计算下一轮更新时间
+            next_update = time.time() + self.update_interval
+            current_time = time.time()
+
+            if current_time < next_update:
+                sleep_time = next_update - current_time
+                logging.info(f"⏳ 等待{sleep_time:.1f}秒后进行下一轮更新")
+                time.sleep(sleep_time)
+
+        total_duration = (time.time() - start_time) / 60
+        logging.info(f"🎉 持续更新完成: 运行{total_duration:.1f}分钟, 完成{cycle_count}轮更新")
 
     def cleanup(self):
         """清理资源"""
@@ -353,8 +542,18 @@ class ImprovedFastWeatherCrawler:
 if __name__ == "__main__":
     crawler = None
     try:
-        crawler = ImprovedFastWeatherCrawler()
-        crawler.update_all_provinces_safely()
+        # 创建爬虫实例，启用增量更新，10秒间隔
+        crawler = ImprovedFastWeatherCrawler(
+            incremental_update=True,
+            update_interval=10
+        )
+
+        # 单次更新
+        # crawler.update_all_provinces_safely()
+
+        # 持续更新模式（运行10分钟）
+        crawler.continuous_update(duration_minutes=10)
+
     except Exception as e:
         logging.error(f"💥 程序执行失败: {e}")
     finally:
