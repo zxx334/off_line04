@@ -1,0 +1,46 @@
+[
+  {
+    "province": "江苏",
+    "date": "2025-10-03",
+    "weather": "多云",
+    "temperature": "10°C-20°C",
+    "wind": "微风",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:37:13",
+    "crawl_time": "2025-10-03 21:37:13"
+  },
+  {
+    "province": "安徽",
+    "date": "2025-10-03",
+    "weather": "多云",
+    "temperature": "10°C-20°C",
+    "wind": "微风",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:37:13",
+    "crawl_time": "2025-10-03 21:37:13"
+  },
+  {
+    "province": "北京",
+    "date": "2025-10-03",
+    "weather": "多云",
+    "temperature": "10°C-20°C",
+    "wind": "微风",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:37:21",
+    "crawl_time": "2025-10-03 21:37:21"
+  },
+  {
+    "province": "新疆",
+    "date": "2025-10-03",
+    "weather": "多云",
+    "temperature": "10°C-20°C",
+    "wind": "微风",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:37:23",
+    "crawl_time": "2025-10-03 21:37:23"
+  }
+]

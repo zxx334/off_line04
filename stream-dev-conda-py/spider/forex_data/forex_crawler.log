@@ -1,0 +1,48 @@
+2025-10-03 21:37:48,978 - INFO - 🔄 开始新的外汇数据爬取任务
+2025-10-03 21:37:49,012 - INFO - ✅ 增强反爬措施设置完成
+2025-10-03 21:37:49,013 - INFO - ✅ JSON存储文件初始化完成: forex_data.json
+2025-10-03 21:37:49,014 - INFO - ✅ 增量数据文件初始化完成: forex_incremental_data.json
+2025-10-03 21:37:49,014 - INFO - ✅ 外汇数据爬虫初始化完成
+2025-10-03 21:37:49,014 - INFO - 🔄 启动持续更新模式，运行1440分钟
+2025-10-03 21:37:49,014 - INFO - 🔄 第1轮更新开始
+2025-10-03 21:37:49,014 - INFO - 🚀 开始安全更新外汇汇率数据 - 2025-10-03 21:37:49
+2025-10-03 21:37:49,014 - INFO - 📊 更新模式: 增量更新, 间隔: 3600秒
+2025-10-03 21:37:52,195 - INFO - 第1次尝试获取 EUR/GBP 汇率数据
+2025-10-03 21:37:53,407 - INFO - 第1次尝试获取 GBP/EUR 汇率数据
+2025-10-03 21:37:53,650 - INFO - 第1次尝试获取 JPY/USD 汇率数据
+2025-10-03 21:37:54,347 - ERROR - ❌ EUR/GBP 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:37:55,049 - ERROR - ❌ GBP/EUR 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:37:58,052 - ERROR - ❌ JPY/USD 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:08,898 - INFO - 第2次尝试获取 EUR/GBP 汇率数据
+2025-10-03 21:38:08,978 - ERROR - ❌ EUR/GBP 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:10,620 - INFO - 第2次尝试获取 GBP/EUR 汇率数据
+2025-10-03 21:38:10,704 - ERROR - ❌ GBP/EUR 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:13,020 - INFO - 第2次尝试获取 JPY/USD 汇率数据
+2025-10-03 21:38:13,097 - ERROR - ❌ JPY/USD 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:23,634 - INFO - 第3次尝试获取 EUR/GBP 汇率数据
+2025-10-03 21:38:23,711 - ERROR - ❌ EUR/GBP 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:23,712 - INFO - 💾 数据已保存到JSON: 更新0条, 新增1条, 总计1条记录
+2025-10-03 21:38:23,712 - INFO - 📈 增量数据已保存: 1 条变化
+2025-10-03 21:38:23,712 - INFO - ✅ EUR/GBP [备用] | 汇率: 0.86 | 耗时: 34.7s
+2025-10-03 21:38:26,737 - INFO - 第3次尝试获取 GBP/EUR 汇率数据
+2025-10-03 21:38:26,818 - ERROR - ❌ GBP/EUR 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:26,828 - INFO - 💾 数据已保存到JSON: 更新0条, 新增1条, 总计2条记录
+2025-10-03 21:38:26,828 - INFO - 📈 增量数据已保存: 1 条变化
+2025-10-03 21:38:26,828 - INFO - ✅ GBP/EUR [备用] | 汇率: 1.16 | 耗时: 37.8s
+2025-10-03 21:38:28,350 - INFO - 第1次尝试获取 USD/AUD 汇率数据
+2025-10-03 21:38:29,150 - ERROR - ❌ USD/AUD 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:29,400 - INFO - 第3次尝试获取 JPY/USD 汇率数据
+2025-10-03 21:38:29,478 - ERROR - ❌ JPY/USD 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:29,478 - INFO - 💾 数据已保存到JSON: 更新0条, 新增1条, 总计3条记录
+2025-10-03 21:38:29,479 - INFO - 📈 增量数据已保存: 1 条变化
+2025-10-03 21:38:29,479 - INFO - ✅ JPY/USD [备用] | 汇率: 0.0091 | 耗时: 40.5s
+2025-10-03 21:38:34,720 - INFO - 第1次尝试获取 GBP/JPY 汇率数据
+2025-10-03 21:38:36,084 - ERROR - ❌ GBP/JPY 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:36,442 - INFO - 第1次尝试获取 USD/CNY 汇率数据
+2025-10-03 21:38:36,532 - ERROR - ❌ USD/CNY 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:44,624 - INFO - 第2次尝试获取 USD/AUD 汇率数据
+2025-10-03 21:38:44,703 - ERROR - ❌ USD/AUD 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:50,532 - INFO - 第2次尝试获取 GBP/JPY 汇率数据
+2025-10-03 21:38:50,746 - ERROR - ❌ GBP/JPY 请求异常: Expecting value: line 1 column 1 (char 0)
+2025-10-03 21:38:51,267 - INFO - 第2次尝试获取 USD/CNY 汇率数据
+2025-10-03 21:38:51,360 - ERROR - ❌ USD/CNY 请求异常: Expecting value: line 1 column 1 (char 0)

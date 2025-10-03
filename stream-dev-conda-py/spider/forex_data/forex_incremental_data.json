@@ -1,0 +1,3 @@
+{"base_currency": "EUR", "target_currency": "GBP", "exchange_rate": 0.86, "timestamp": "2025-10-03 21:38:23", "update_time": "2025-10-03 21:38:23", "is_fallback": true}
+{"base_currency": "GBP", "target_currency": "EUR", "exchange_rate": 1.16, "timestamp": "2025-10-03 21:38:26", "update_time": "2025-10-03 21:38:26", "is_fallback": true}
+{"base_currency": "JPY", "target_currency": "USD", "exchange_rate": 0.0091, "timestamp": "2025-10-03 21:38:29", "update_time": "2025-10-03 21:38:29", "is_fallback": true}

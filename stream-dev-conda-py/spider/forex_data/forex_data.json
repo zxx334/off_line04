@@ -1,0 +1,41 @@
+[
+  {
+    "base_currency": "EUR",
+    "target_currency": "GBP",
+    "rates": {
+      "GBP": 0.86
+    },
+    "date": "2025-10-03",
+    "timestamp": "2025-10-03 21:38:23",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:38:23",
+    "crawl_time": "2025-10-03 21:38:23"
+  },
+  {
+    "base_currency": "GBP",
+    "target_currency": "EUR",
+    "rates": {
+      "EUR": 1.16
+    },
+    "date": "2025-10-03",
+    "timestamp": "2025-10-03 21:38:26",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:38:26",
+    "crawl_time": "2025-10-03 21:38:26"
+  },
+  {
+    "base_currency": "JPY",
+    "target_currency": "USD",
+    "rates": {
+      "USD": 0.0091
+    },
+    "date": "2025-10-03",
+    "timestamp": "2025-10-03 21:38:29",
+    "source": "fallback",
+    "is_fallback": true,
+    "update_time": "2025-10-03 21:38:29",
+    "crawl_time": "2025-10-03 21:38:29"
+  }
+]
