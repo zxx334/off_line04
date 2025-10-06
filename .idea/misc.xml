@@ -8,6 +8,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/stream-realtime/pom.xml" />
+        <option value="$PROJECT_DIR$/FlinkKafka_Doris_RoutineLoad_Doris/pom.xml" />
       </list>
     </option>
   </component>
