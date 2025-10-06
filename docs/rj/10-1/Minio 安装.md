@@ -121,7 +121,7 @@ Hive Metastore
 
 错误信息：
 No AWS Credentials provided by BasicAWSCredentialsProvider
-![img.png](img.png)
+![img.png](../9-30_10-4/img.png)
 
 4.2 解决方案：使用 HDFS 中转方案
 
