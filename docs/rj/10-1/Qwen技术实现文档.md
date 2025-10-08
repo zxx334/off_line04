@@ -5,6 +5,10 @@
 
 ### 4.1 Qwen模型双模式部署
 
+### ollam启动命令
+
+ollama run qwen3:0.6b
+
 
 📁 文件功能说明
 

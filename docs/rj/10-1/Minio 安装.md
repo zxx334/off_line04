@@ -60,52 +60,52 @@ sudo ./minio server /opt/soft/minio-data --console-address ":19002" --address ":
 三、Hive 集成配置
 3.1 配置 HDFS 连接 MinIO
 通过 CDH Manager 修改 core-site.xml 配置：
-
-[//]: # (<configuration>)
-
-[//]: # (  <!-- MinIO 配置 -->)
-
-[//]: # (  <property>)
-
-[//]: # (    <name>fs.s3a.endpoint</name>)
-
-[//]: # (    <value>http://cdh01:19000</value>)
-
-[//]: # (  </property>)
-
-[//]: # (  <property>)
-
-[//]: # (    <name>fs.s3a.access.key</name>)
-
-[//]: # (    <value>minioadmin</value>)
-
-[//]: # (  </property>)
-
-[//]: # (  <property>)
-
-[//]: # (    <name>fs.s3a.secret.key</name>)
-
-[//]: # (    <value>minioadmin</value>)
-
-[//]: # (  </property>)
-
-[//]: # (  <property>)
-
-[//]: # (    <name>fs.s3a.path.style.access</name>)
-
-[//]: # (    <value>true</value>)
-
-[//]: # (  </property>)
-
-[//]: # (  <property>)
-
-[//]: # (    <name>fs.s3a.impl</name>)
-
-[//]: # (    <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>)
-
-[//]: # (  </property>)
-
-[//]: # (</configuration>)
+    
+    <configuration>
+    
+      <!-- MinIO 配置 -->
+    
+      <property>
+    
+        <name>fs.s3a.endpoint</name>
+    
+        <value>http://cdh01:19000</value>
+    
+      </property>
+    
+      <property>
+    
+        <name>fs.s3a.access.key</name>
+    
+        <value>minioadmin</value>
+    
+      </property>
+    
+      <property>
+    
+        <name>fs.s3a.secret.key</name>
+    
+        <value>minioadmin</value>
+    
+      </property>
+    
+      <property>
+    
+        <name>fs.s3a.path.style.access</name>
+    
+        <value>true</value>
+    
+      </property>
+    
+      <property>
+    
+        <name>fs.s3a.impl</name>
+    
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    
+      </property>
+    
+    </configuration>
 
 3.2 重启服务
 HDFS
