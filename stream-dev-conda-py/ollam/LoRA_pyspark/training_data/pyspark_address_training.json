@@ -1,0 +1,242 @@
+[
+  {
+    "instruction": "这个地址在哪个市？湖北省武汉市武昌区东湖路",
+    "input": "",
+    "output": "这个地址在武汉市",
+    "original_address": "湖北省武汉市武昌区东湖路"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？陕西省西安市雁塔区高新路",
+    "input": "",
+    "output": "这个地址在雁塔区",
+    "original_address": "陕西省西安市雁塔区高新路"
+  },
+  {
+    "instruction": "这个地址在哪个省？山东省济南市历下区泉城广场",
+    "input": "",
+    "output": "这个地址在山东省",
+    "original_address": "山东省济南市历下区泉城广场"
+  },
+  {
+    "instruction": "这个地址在哪个市？上海市浦东新区张江高科技园区",
+    "input": "",
+    "output": "这个地址在上海市",
+    "original_address": "上海市浦东新区张江高科技园区"
+  },
+  {
+    "instruction": "这个地址在哪个市？陕西省西安市雁塔区高新路",
+    "input": "",
+    "output": "这个地址在西安市",
+    "original_address": "陕西省西安市雁塔区高新路"
+  },
+  {
+    "instruction": "请标准化这个地址：湖南省长沙市岳麓区橘子洲头",
+    "input": "",
+    "output": "标准化地址：湖南长沙市岳麓区橘子洲头",
+    "original_address": "湖南省长沙市岳麓区橘子洲头"
+  },
+  {
+    "instruction": "这个地址在哪个市？北京市海淀区中关村大街1号",
+    "input": "",
+    "output": "这个地址在北京市",
+    "original_address": "北京市海淀区中关村大街1号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？北京市海淀区中关村大街1号",
+    "input": "",
+    "output": "这个地址在海淀区",
+    "original_address": "北京市海淀区中关村大街1号"
+  },
+  {
+    "instruction": "这个地址在哪个省？江苏省南京市鼓楼区中山路1号",
+    "input": "",
+    "output": "这个地址在江苏省",
+    "original_address": "江苏省南京市鼓楼区中山路1号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？山东省济南市历下区泉城广场",
+    "input": "",
+    "output": "这个地址在历下区",
+    "original_address": "山东省济南市历下区泉城广场"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？湖南省长沙市岳麓区橘子洲头",
+    "input": "",
+    "output": "这个地址在岳麓区",
+    "original_address": "湖南省长沙市岳麓区橘子洲头"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？湖北省武汉市武昌区东湖路",
+    "input": "",
+    "output": "这个地址在武昌区",
+    "original_address": "湖北省武汉市武昌区东湖路"
+  },
+  {
+    "instruction": "请标准化这个地址：湖北省武汉市武昌区东湖路",
+    "input": "",
+    "output": "标准化地址：湖北武汉市武昌区东湖路",
+    "original_address": "湖北省武汉市武昌区东湖路"
+  },
+  {
+    "instruction": "这个地址在哪个市？浙江省杭州市西湖区文三路100号",
+    "input": "",
+    "output": "这个地址在杭州市",
+    "original_address": "浙江省杭州市西湖区文三路100号"
+  },
+  {
+    "instruction": "这个地址在哪个市？山东省济南市历下区泉城广场",
+    "input": "",
+    "output": "这个地址在济南市",
+    "original_address": "山东省济南市历下区泉城广场"
+  },
+  {
+    "instruction": "这个地址在哪个市？广东省深圳市南山区科技园南路100号",
+    "input": "",
+    "output": "这个地址在深圳市",
+    "original_address": "广东省深圳市南山区科技园南路100号"
+  },
+  {
+    "instruction": "这个地址在哪个市？湖南省长沙市岳麓区橘子洲头",
+    "input": "",
+    "output": "这个地址在长沙市",
+    "original_address": "湖南省长沙市岳麓区橘子洲头"
+  },
+  {
+    "instruction": "请标准化这个地址：北京市海淀区中关村大街1号",
+    "input": "",
+    "output": "标准化地址：北京北京市海淀区中关村大街",
+    "original_address": "北京市海淀区中关村大街1号"
+  },
+  {
+    "instruction": "这个地址在哪个省？陕西省西安市雁塔区高新路",
+    "input": "",
+    "output": "这个地址在陕西省",
+    "original_address": "陕西省西安市雁塔区高新路"
+  },
+  {
+    "instruction": "这个地址在哪个省？广东省深圳市南山区科技园南路100号",
+    "input": "",
+    "output": "这个地址在广东省",
+    "original_address": "广东省深圳市南山区科技园南路100号"
+  },
+  {
+    "instruction": "这个地址在哪个省？湖南省长沙市岳麓区橘子洲头",
+    "input": "",
+    "output": "这个地址在湖南省",
+    "original_address": "湖南省长沙市岳麓区橘子洲头"
+  },
+  {
+    "instruction": "请标准化这个地址：上海市浦东新区张江高科技园区",
+    "input": "",
+    "output": "标准化地址：上海上海市浦东新区张江高科技园区",
+    "original_address": "上海市浦东新区张江高科技园区"
+  },
+  {
+    "instruction": "这个地址在哪个省？湖北省武汉市武昌区东湖路",
+    "input": "",
+    "output": "这个地址在湖北省",
+    "original_address": "湖北省武汉市武昌区东湖路"
+  },
+  {
+    "instruction": "这个地址在哪个省？四川省成都市武侯区天府软件园",
+    "input": "",
+    "output": "这个地址在四川省",
+    "original_address": "四川省成都市武侯区天府软件园"
+  },
+  {
+    "instruction": "请标准化这个地址：广东省深圳市南山区科技园南路100号",
+    "input": "",
+    "output": "标准化地址：广东深圳市南山区科技园南路",
+    "original_address": "广东省深圳市南山区科技园南路100号"
+  },
+  {
+    "instruction": "请标准化这个地址：山东省济南市历下区泉城广场",
+    "input": "",
+    "output": "标准化地址：山东济南市历下区泉城广场",
+    "original_address": "山东省济南市历下区泉城广场"
+  },
+  {
+    "instruction": "请标准化这个地址：陕西省西安市雁塔区高新路",
+    "input": "",
+    "output": "标准化地址：陕西西安市雁塔区高新路",
+    "original_address": "陕西省西安市雁塔区高新路"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？上海市浦东新区张江高科技园区",
+    "input": "",
+    "output": "这个地址在浦东新区",
+    "original_address": "上海市浦东新区张江高科技园区"
+  },
+  {
+    "instruction": "这个地址在哪个省？浙江省杭州市西湖区文三路100号",
+    "input": "",
+    "output": "这个地址在浙江省",
+    "original_address": "浙江省杭州市西湖区文三路100号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？浙江省杭州市西湖区文三路100号",
+    "input": "",
+    "output": "这个地址在西湖区",
+    "original_address": "浙江省杭州市西湖区文三路100号"
+  },
+  {
+    "instruction": "请标准化这个地址：浙江省杭州市西湖区文三路100号",
+    "input": "",
+    "output": "标准化地址：浙江杭州市西湖区文三路",
+    "original_address": "浙江省杭州市西湖区文三路100号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？四川省成都市武侯区天府软件园",
+    "input": "",
+    "output": "这个地址在武侯区",
+    "original_address": "四川省成都市武侯区天府软件园"
+  },
+  {
+    "instruction": "这个地址在哪个市？江苏省南京市鼓楼区中山路1号",
+    "input": "",
+    "output": "这个地址在南京市",
+    "original_address": "江苏省南京市鼓楼区中山路1号"
+  },
+  {
+    "instruction": "这个地址在哪个省？北京市海淀区中关村大街1号",
+    "input": "",
+    "output": "这个地址在北京省",
+    "original_address": "北京市海淀区中关村大街1号"
+  },
+  {
+    "instruction": "请标准化这个地址：四川省成都市武侯区天府软件园",
+    "input": "",
+    "output": "标准化地址：四川成都市武侯区天府软件园",
+    "original_address": "四川省成都市武侯区天府软件园"
+  },
+  {
+    "instruction": "这个地址在哪个市？四川省成都市武侯区天府软件园",
+    "input": "",
+    "output": "这个地址在成都市",
+    "original_address": "四川省成都市武侯区天府软件园"
+  },
+  {
+    "instruction": "这个地址在哪个省？上海市浦东新区张江高科技园区",
+    "input": "",
+    "output": "这个地址在上海省",
+    "original_address": "上海市浦东新区张江高科技园区"
+  },
+  {
+    "instruction": "请标准化这个地址：江苏省南京市鼓楼区中山路1号",
+    "input": "",
+    "output": "标准化地址：江苏南京市鼓楼区中山路",
+    "original_address": "江苏省南京市鼓楼区中山路1号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？江苏省南京市鼓楼区中山路1号",
+    "input": "",
+    "output": "这个地址在鼓楼区",
+    "original_address": "江苏省南京市鼓楼区中山路1号"
+  },
+  {
+    "instruction": "这个地址在哪个区/县？广东省深圳市南山区科技园南路100号",
+    "input": "",
+    "output": "这个地址在南山区",
+    "original_address": "广东省深圳市南山区科技园南路100号"
+  }
+]

@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Oct 19 19:23:33 CST 2025:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0199-fc35-e134-000031d6aa50 
+on database directory D:\IDEA\bigdata\off_line04\stream-dev-conda-py\Maxconputer_py_sparkSQL\metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@39a6e6b 
+Loaded from file:/C:/Users/34604/.conda/envs/stream-dev-conda-py/Lib/site-packages/pyspark/jars/derby-10.14.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_131-b11
+user.dir=D:\IDEA\bigdata\off_line04\stream-dev-conda-py\Maxconputer_py_sparkSQL
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
